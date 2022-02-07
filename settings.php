@@ -15,14 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Settings for the Stripe payment gateway
+ * Settings for the cardinity payment gateway
  *
- * @package    paygw_stripe
- * @copyright  2021 Alex Morris <alex@navra.nz>
+ * @package    paygw_cardinity
+ * @copyright  2021 Brain Station 23 Ltd.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-use core_payment\helper;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -30,5 +28,6 @@ if ($ADMIN->fulltree) {
 
     $settings->add(new admin_setting_heading('paygw_cardinity_settings', '', get_string('pluginname_desc', 'paygw_cardinity')));
 
-    helper::add_common_gateway_settings($settings, 'paygw_cardinity');
+    \core_payment\helper::add_common_gateway_settings($settings, 'paygw_cardinity');
 }
+

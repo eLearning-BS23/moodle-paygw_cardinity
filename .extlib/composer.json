@@ -1,0 +1,5 @@
+{
+    "require": {
+        "cardinity/cardinity-sdk-php": "^3.0"
+    }
+}
