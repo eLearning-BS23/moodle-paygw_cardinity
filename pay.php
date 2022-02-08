@@ -41,6 +41,7 @@ $payable    = helper::get_payable($component, $paymentarea, $itemid);
 $surcharge  = helper::get_gateway_surcharge('cardinity');
 $cost       = helper::get_rounded_cost($payable->get_amount(), $payable->get_currency(), $surcharge);
 
+
 $amount = number_format((float)$cost, 2, '.', '');
 $cancelurl = $CFG->wwwroot . '/payment/gateway/cardinity/cancel.php?id=' . $courseid . '&component=' . $component .
   '&paymentarea=' . $paymentarea . '&itemid=' . $itemid;
@@ -86,16 +87,16 @@ $signature = hash_hmac('sha256', $message, $projectsecret);
 <body onload="document.forms['checkout'].submit()">
   <div class="loader"></div>
   <form name="checkout" method="POST" action="https://checkout.cardinity.com">
-    <input type="hidden" name="amount" value="<?php $amount; ?>" />
-    <input type="hidden" name="cancel_url" value="<?php $cancelurl; ?>" />
-    <input type="hidden" name="country" value="<?php $country; ?>" />
-    <input type="hidden" name="language" value="<?php $language; ?>" />
-    <input type="hidden" name="currency" value="<?php $currency; ?>" />
-    <input type="hidden" name="description" value="<?php $description; ?>" />
-    <input type="hidden" name="order_id" value="<?php $orderid; ?>" />
-    <input type="hidden" name="project_id" value="<?php $projectid; ?>" />
-    <input type="hidden" name="return_url" value="<?php $returnurl; ?>" />
-    <input type="hidden" name="signature" value="<?php $signature; ?>" />
+    <input type="hidden" name="amount" value="<?php echo $amount; ?>" />
+    <input type="hidden" name="cancel_url" value="<?php echo $cancelurl; ?>" />
+    <input type="hidden" name="country" value="<?php echo $country; ?>" />
+    <input type="hidden" name="language" value="<?php echo $language; ?>" />
+    <input type="hidden" name="currency" value="<?php echo $currency; ?>" />
+    <input type="hidden" name="description" value="<?php echo $description; ?>" />
+    <input type="hidden" name="order_id" value="<?php echo $orderid; ?>" />
+    <input type="hidden" name="project_id" value="<?php echo $projectid; ?>" />
+    <input type="hidden" name="return_url" value="<?php echo $returnurl; ?>" />
+    <input type="hidden" name="signature" value="<?php echo $signature; ?>" />
   </form>
 </body>
 </html>

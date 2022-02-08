@@ -25,7 +25,7 @@
 
 $string['pluginname'] = 'Cardinity';
 $string['gatewayname'] = 'Cardinity';
-$string['success'] = 'Payment Successessful';
+$string['paymentsuccessful'] = 'Payment Successessful';
 $string['paymentcancelled'] = 'Payment Cancelled';
 $string['pluginname_desc'] = 'The Cardinity plugin allows you to receive payments via Cardinity.';
 $string['privacy:metadata'] = 'The Cardinity plugin does not store any personal data.';

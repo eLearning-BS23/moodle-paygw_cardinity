@@ -39,6 +39,7 @@ $component = required_param('component', PARAM_ALPHANUMEXT);
 $paymentarea = required_param('paymentarea', PARAM_ALPHANUMEXT);
 $itemid = required_param('itemid', PARAM_INT);
 $status = required_param('status', PARAM_TEXT);
+$live = required_param('live', PARAM_TEXT);
 // Load Cardinity Configuration.
 $config = (object) helper::get_gateway_configuration($component, $paymentarea, $itemid, 'cardinity');
 
@@ -66,10 +67,18 @@ if ($signature == $_POST['signature']) {
     $paymentrecord->timeupdated = time();
 
     if ($status == "approved") {
-        redirect($CFG->wwwroot . '/payment/gateway/cardinity/success.php?id=' .
-        $courseid . '&component=' . $component . '&paymentarea=' .
-        $paymentarea . '&itemid=' . $itemid);
-        exit();
+        if($live){
+            redirect($CFG->wwwroot . '/payment/gateway/cardinity/success.php?id=' .
+            $courseid . '&component=' . $component . '&paymentarea=' .
+            $paymentarea . '&itemid=' . $itemid);
+            exit();
+        }else{
+            redirect($CFG->wwwroot . '/payment/gateway/cardinity/success.php?id=' .
+            $courseid . '&component=' . $component . '&paymentarea=' .
+            $paymentarea . '&itemid=' . $itemid , 'Your Payment done in test environment', 0, 'success');
+            exit();
+        }
+
     } else {
         redirect($CFG->wwwroot . '/payment/gateway/cardinity/cancel.php?id=' . $courseid);
         exit();
