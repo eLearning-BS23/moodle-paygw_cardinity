@@ -34,7 +34,6 @@ global $CFG, $USER, $DB;
 $component   = required_param('component', PARAM_ALPHANUMEXT);
 $paymentarea = required_param('paymentarea', PARAM_ALPHANUMEXT);
 $itemid      = required_param('itemid', PARAM_INT);
-$description = required_param('description', PARAM_TEXT);
 $courseid   = $DB->get_field('enrol', 'courseid', ['enrol' => 'fee', 'id' => $itemid]);
 $config     = (object) helper::get_gateway_configuration($component, $paymentarea, $itemid, 'cardinity');
 $payable    = helper::get_payable($component, $paymentarea, $itemid);
@@ -48,7 +47,7 @@ $cancelurl = $CFG->wwwroot . '/payment/gateway/cardinity/cancel.php?id=' . $cour
 $country = !empty($USER->country) ? $USER->country : 'BD';
 $language = "EN";
 $currency = $payable->get_currency();
-$description = $description;
+$description = '';
 $orderid = uniqid();
 $returnurl = $CFG->wwwroot . '/payment/gateway/cardinity/process.php?id=' .
   $courseid . '&component=' . $component .
@@ -79,7 +78,8 @@ foreach ($attributes as $key => $value) {
 $signature = hash_hmac('sha256', $message, $projectsecret);
 
 ?>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <title>Cardiniy Hosted Payment Page</title>
   </style>

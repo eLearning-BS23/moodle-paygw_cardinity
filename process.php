@@ -67,7 +67,7 @@ if ($signature == $_POST['signature']) {
     $paymentrecord->timeupdated = time();
 
     if ($status == "approved") {
-        if($live){
+        if(empty($live)){
             redirect($CFG->wwwroot . '/payment/gateway/cardinity/success.php?id=' .
             $courseid . '&component=' . $component . '&paymentarea=' .
             $paymentarea . '&itemid=' . $itemid);
