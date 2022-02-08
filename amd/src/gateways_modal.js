@@ -21,8 +21,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
- import Templates from "core/templates";
- import ModalFactory from "core/modal_factory";
+ import Templates from 'core/templates';
+ import ModalFactory from 'core/modal_factory';
 
  const showModalWithPlaceholder = async () => {
    const modal = await ModalFactory.create({

@@ -1,5 +1,27 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Redirects to the cardinity checkout for payment
+ *
+ * @package    paygw_cardinity
+ * @copyright  2021 Brain station 23 ltd.
+ * @author     Brain station 23 ltd.
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 namespace paygw_cardinity;
 
 use coding_exception;
@@ -20,43 +42,12 @@ class gateway extends \core_payment\gateway {
      */
     public static function add_configuration_to_gateway_form(account_gateway $form): void {
         $mform = $form->get_mform();
-
         $mform->addElement('text', 'clientid', get_string('clientid', 'paygw_cardinity'));
         $mform->setType('clientid', PARAM_TEXT);
         $mform->addHelpButton('clientid', 'clientid', 'paygw_cardinity');
-
         $mform->addElement('text', 'secretkey', get_string('secretkey', 'paygw_cardinity'));
         $mform->setType('secretkey', PARAM_TEXT);
         $mform->addHelpButton('secretkey', 'secretkey', 'paygw_cardinity');
-
-        //         $paymentmethods = [
-        //             'card' => get_string('paymentmethod:card', 'paygw_cardinity'),
-        // //            'alipay' => get_string('paymentmethod:alipay', 'paygw_cardinity'),
-        // //            'bancontact' => get_string('paymentmethod:bancontact', 'paygw_cardinity'),
-        // //            'eps' => get_string('paymentmethod:eps', 'paygw_cardinity'),
-        // //            'giropay' => get_string('paymentmethod:giropay', 'paygw_cardinity'),
-        // //            'ideal' => get_string('paymentmethod:ideal', 'paygw_cardinity'),
-        // //            'p24' => get_string('paymentmethod:p24', 'paygw_cardinity'),
-        // //            'sepa_debit' => get_string('paymentmethod:sepa_debit', 'paygw_cardinity'),
-        // //            'sofort' => get_string('paymentmethod:sofort', 'paygw_cardinity'),
-        // //            'upi' => get_string('paymentmethod:upi', 'paygw_cardinity'),
-        // //            'netbanking' => get_string('paymentmethod:netbanking', 'paygw_cardinity')
-        //         ];
-        //         $method = $mform->addElement('select', 'paymentmethods', get_string('paymentmethods', 'paygw_cardinity'), $paymentmethods);
-        //         $mform->setType('paymentmethods', PARAM_TEXT);
-        //         $mform->setDefault('paymentmethods', 'card');
-        //         $method->setMultiple(true);
-
-        // $mform->addElement('advcheckbox', 'allowpromotioncodes', get_string('allowpromotioncodes', 'paygw_cardinity'));
-        // $mform->setDefault('allowpromotioncodes', true);
-
-        // $mform->addElement('advcheckbox', 'enableautomatictax', get_string('enableautomatictax', 'paygw_cardinity'),
-        //     get_string('enableautomatictax_desc', 'paygw_cardinity'));
-
-        $mform->addElement('select', 'defaulttaxbehavior', get_string('defaulttaxbehavior', 'paygw_cardinity'), [
-            'sandbox' => get_string('taxbehavior:exclusive', 'paygw_cardinity'),
-            'live' => get_string('taxbehavior:inclusive', 'paygw_cardinity'),
-        ]);
         $mform->addHelpButton('defaulttaxbehavior', 'defaulttaxbehavior', 'paygw_cardinity');
     }
 

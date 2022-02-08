@@ -22,6 +22,7 @@
  * @copyright  2022 Brain station 23 Ltd. <sales@brainstation-23.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 namespace paygw_cardinity\privacy;
 
 use coding_exception;
@@ -37,8 +38,7 @@ use stdClass;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-class provider implements \core_privacy\local\metadata\null_provider, \core_payment\privacy\paygw_provider
-{
+class provider implements \core_privacy\local\metadata\null_provider, \core_payment\privacy\paygw_provider {
 
     /**
      * Get the language string identifier with the component's language
@@ -46,8 +46,7 @@ class provider implements \core_privacy\local\metadata\null_provider, \core_paym
      *
      * @return  string
      */
-    public static function get_reason(): string
-    {
+    public static function get_reason(): string {
         return 'privacy:metadata';
     }
 
@@ -61,8 +60,7 @@ class provider implements \core_privacy\local\metadata\null_provider, \core_paym
      * @throws coding_exception
      * @throws dml_exception
      */
-    public static function export_payment_data(context $context, array $subcontext, stdClass $payment)
-    {
+    public static function export_payment_data(context $context, array $subcontext, stdClass $payment) {
         global $DB;
 
         $subcontext[] = get_string('gatewayname', 'paygw_cardinity');
@@ -85,8 +83,7 @@ class provider implements \core_privacy\local\metadata\null_provider, \core_paym
      * @return void
      * @throws dml_exception
      */
-    public static function delete_data_for_payment_sql(string $paymentsql, array $paymentparams)
-    {
+    public static function delete_data_for_payment_sql(string $paymentsql, array $paymentparams) {
         global $DB;
 
         $DB->delete_records_select('paygw_cardinity', "paymentid IN ({$paymentsql})", $paymentparams);
