@@ -41,4 +41,5 @@ $string['taxbehavior:exclusive'] = 'Sandbox';
 $string['taxbehavior:inclusive'] = 'Live';
 $string['defaulttaxbehavior_help'] = 'Chose your Credential environment';
 $string['gatewaydescription'] = 'Cardinity is a payment gateway that allows merchants to expand their businesses online. Payments can be made with local and international debit or credit cards.';
+$string['environmentmessage'] = 'Your Payment done in test environment';
 

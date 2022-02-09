@@ -70,12 +70,12 @@ if ($signature == $_POST['signature']) {
         if(empty($live)){
             redirect($CFG->wwwroot . '/payment/gateway/cardinity/success.php?id=' .
             $courseid . '&component=' . $component . '&paymentarea=' .
-            $paymentarea . '&itemid=' . $itemid);
+            $paymentarea . '&itemid=' . $itemid , get_string('environmentmessage','paygw_cardinity'), 0, 'success');
             exit();
         }else{
             redirect($CFG->wwwroot . '/payment/gateway/cardinity/success.php?id=' .
             $courseid . '&component=' . $component . '&paymentarea=' .
-            $paymentarea . '&itemid=' . $itemid , 'Your Payment done in test environment', 0, 'success');
+            $paymentarea . '&itemid=' . $itemid);
             exit();
         }
 

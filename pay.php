@@ -47,7 +47,7 @@ $cancelurl = $CFG->wwwroot . '/payment/gateway/cardinity/cancel.php?id=' . $cour
 $country = !empty($USER->country) ? $USER->country : 'BD';
 $language = "EN";
 $currency = $payable->get_currency();
-$description = '';
+$description = 'description';
 $orderid = uniqid();
 $returnurl = $CFG->wwwroot . '/payment/gateway/cardinity/process.php?id=' .
   $courseid . '&component=' . $component .
