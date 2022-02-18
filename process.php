@@ -40,6 +40,7 @@ $paymentarea = required_param('paymentarea', PARAM_ALPHANUMEXT);
 $itemid = required_param('itemid', PARAM_INT);
 $status = required_param('status', PARAM_TEXT);
 $live = required_param('live', PARAM_TEXT);
+
 // Load Cardinity Configuration.
 $config = (object) helper::get_gateway_configuration($component, $paymentarea, $itemid, 'cardinity');
 
@@ -57,6 +58,17 @@ foreach ($_POST as $key => $value) {
 $signature = hash_hmac('sha256', $message, $projectsecret);
 
 if ($signature == $_POST['signature']) {
+
+    $paymentrecord = new stdClass();
+    $paymentrecord->courseid = $courseid;
+    $paymentrecord->itemid = $itemid;
+    $paymentrecord->userid = $USER->id;
+    $paymentrecord->currency = required_param('currency', PARAM_TEXT);
+    $paymentrecord->payment_status = $status;
+    $paymentrecord->txn_id = required_param('order_id', PARAM_TEXT);
+    $paymentrecord->timeupdated = time();
+
+    $DB->insert_record('paygw_cardinity', $paymentrecord);
     // Deliver course.
     $payable = helper::get_payable($component, $paymentarea, $itemid);
     $cost = helper::get_rounded_cost($payable->get_amount(), $payable->get_currency(), helper::get_gateway_surcharge('cardinity'));
@@ -71,6 +83,7 @@ if ($signature == $_POST['signature']) {
         'cardinity'
     );
     helper::deliver_order($component, $paymentarea, $itemid, $paymentid, $USER->id);
+
 
     // Find redirection.
     $url = new moodle_url('/');
