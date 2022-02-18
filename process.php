@@ -40,6 +40,7 @@ $paymentarea = required_param('paymentarea', PARAM_ALPHANUMEXT);
 $itemid = required_param('itemid', PARAM_INT);
 $status = required_param('status', PARAM_TEXT);
 $live = required_param('live', PARAM_TEXT);
+
 // Load Cardinity Configuration.
 $config = (object) helper::get_gateway_configuration($component, $paymentarea, $itemid, 'cardinity');
 
@@ -57,6 +58,7 @@ foreach ($_POST as $key => $value) {
 $signature = hash_hmac('sha256', $message, $projectsecret);
 
 if ($signature == $_POST['signature']) {
+
     $paymentrecord = new stdClass();
     $paymentrecord->courseid = $courseid;
     $paymentrecord->itemid = $itemid;
@@ -66,24 +68,34 @@ if ($signature == $_POST['signature']) {
     $paymentrecord->txn_id = required_param('order_id', PARAM_TEXT);
     $paymentrecord->timeupdated = time();
 
-    if ($status == "approved") {
-        if(empty($live)){
-            redirect($CFG->wwwroot . '/payment/gateway/cardinity/success.php?id=' .
-            $courseid . '&component=' . $component . '&paymentarea=' .
-            $paymentarea . '&itemid=' . $itemid , get_string('environmentmessage','paygw_cardinity'), 0, 'success');
-            exit();
-        }else{
-            redirect($CFG->wwwroot . '/payment/gateway/cardinity/success.php?id=' .
-            $courseid . '&component=' . $component . '&paymentarea=' .
-            $paymentarea . '&itemid=' . $itemid);
-            exit();
-        }
+    $DB->insert_record('paygw_cardinity', $paymentrecord);
+    // Deliver course.
+    $payable = helper::get_payable($component, $paymentarea, $itemid);
+    $cost = helper::get_rounded_cost($payable->get_amount(), $payable->get_currency(), helper::get_gateway_surcharge('cardinity'));
+    $paymentid = helper::save_payment(
+        $payable->get_account_id(),
+        $component,
+        $paymentarea,
+        $itemid,
+        $USER->id,
+        $cost,
+        $payable->get_currency(),
+        'cardinity'
+    );
+    helper::deliver_order($component, $paymentarea, $itemid, $paymentid, $USER->id);
 
-    } else {
-        redirect($CFG->wwwroot . '/payment/gateway/cardinity/cancel.php?id=' . $courseid);
-        exit();
+
+    // Find redirection.
+    $url = new moodle_url('/');
+    // Method only exists in 3.11+.
+    if (method_exists('\core_payment\helper', 'get_success_url')) {
+        $url = helper::get_success_url($component, $paymentarea, $itemid);
+    } else if ($component == 'enrol_fee' && $paymentarea == 'fee') {
+        $courseid = $DB->get_field('enrol', 'courseid', ['enrol' => 'fee', 'id' => $itemid]);
+        if (!empty($courseid)) {
+            $url = course_get_url($courseid);
+        }
     }
-} else {
-    redirect($CFG->wwwroot . '/payment/gateway/cardinity/cancel.php?id=' . $courseid);
-    exit();
+    redirect($url, get_string('paymentsuccessful', 'paygw_cardinity'), 0, 'success');
 }
+redirect(new moodle_url('/'), get_string('paymentcancelled', 'paygw_cardinity'));
