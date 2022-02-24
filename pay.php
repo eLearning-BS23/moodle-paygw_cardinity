@@ -44,7 +44,7 @@ $cost       = helper::get_rounded_cost($payable->get_amount(), $payable->get_cur
 $amount = number_format((float)$cost, 2, '.', '');
 $cancelurl = $CFG->wwwroot . '/payment/gateway/cardinity/cancel.php?id=' . $courseid . '&component=' . $component .
   '&paymentarea=' . $paymentarea . '&itemid=' . $itemid;
-$country = !empty($USER->country) ? $USER->country : 'N/A';
+$country = !empty($USER->country) ? $USER->country : 'Liechtenstein';
 $language = "EN";
 $currency = $payable->get_currency();
 $description = 'description';
