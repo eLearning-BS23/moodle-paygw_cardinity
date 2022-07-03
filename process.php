@@ -64,6 +64,7 @@ if ($signature == $_POST['signature']) {
     $paymentrecord->userid = $USER->id;
     $paymentrecord->currency = required_param('currency', PARAM_TEXT);
     $paymentrecord->payment_status = $status;
+    $paymentrecord->payment_id = $_POST['id'];
     $paymentrecord->txn_id = required_param('order_id', PARAM_TEXT);
     $paymentrecord->timeupdated = time();
 
