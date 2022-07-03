@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /*
- * Various helper methods for interacting with the portwallet API
+ * Various helper methods for interacting with the cardinity API
  *
- * @package    paygw_portwallet
+ * @package    paygw_cardinity
  * @copyright  2021 Brain station 23 ltd.
  * @author     Brain station 23 ltd.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -28,7 +28,6 @@ use core_payment\helper;
 require_once(__DIR__ . '/../../../config.php');
 require_once($CFG->dirroot . '/course/lib.php');
 global $CFG, $USER, $DB;
-
 defined('MOODLE_INTERNAL') || die();
 
 require_login();
@@ -42,7 +41,7 @@ $status = required_param('status', PARAM_TEXT);
 $live = required_param('live', PARAM_TEXT);
 
 // Load Cardinity Configuration.
-$config = (object) helper::get_gateway_configuration($component, $paymentarea, $itemid, 'cardinity');
+$config = (object)helper::get_gateway_configuration($component, $paymentarea, $itemid, 'cardinity');
 
 $projectsecret = $config->secretkey;
 $message = '';
@@ -83,7 +82,6 @@ if ($signature == $_POST['signature']) {
         'cardinity'
     );
     helper::deliver_order($component, $paymentarea, $itemid, $paymentid, $USER->id);
-
 
     // Find redirection.
     $url = new moodle_url('/');

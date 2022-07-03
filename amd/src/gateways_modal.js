@@ -16,38 +16,38 @@
 /**
  * This module is responsible for cardinity content in the gateways modal.
  *
- * @module     paygw_cardinity/gateway_modal
+ * @module     paygw_cardinity
  * @copyright  2021 Brain station 23 ltd.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
- import Templates from 'core/templates';
- import ModalFactory from 'core/modal_factory';
+import Templates from 'core/templates';
+import ModalFactory from 'core/modal_factory';
 
- const showModalWithPlaceholder = async () => {
-   const modal = await ModalFactory.create({
-     body: await Templates.render(
-       "paygw_cardinity/cardinity_button_placeholder",
-       {}
-     ),
-   });
-   modal.show();
- };
+const showModalWithPlaceholder = async() => {
+    const modal = await ModalFactory.create({
+        body: await Templates.render(
+            "paygw_cardinity/cardinity_button_placeholder",
+            {}
+        ),
+    });
+    modal.show();
+};
 
- export const process = (component, paymentArea, itemId, description) => {
-   return showModalWithPlaceholder().then(() => {
-     location.href =
-       M.cfg.wwwroot +
-       "/payment/gateway/cardinity/pay.php?" +
-       "component=" +
-       component +
-       "&paymentarea=" +
-       paymentArea +
-       "&itemid=" +
-       itemId +
-       "&description=" +
-       description;
+export const process = (component, paymentArea, itemId, description) => {
+    return showModalWithPlaceholder().then(() => {
+        location.href =
+            M.cfg.wwwroot +
+            "/payment/gateway/cardinity/pay.php?" +
+            "component=" +
+            component +
+            "&paymentarea=" +
+            paymentArea +
+            "&itemid=" +
+            itemId +
+            "&description=" +
+            description;
 
-     return new Promise(() => null);
-   });
- };
+        return new Promise(() => null);
+    });
+};
