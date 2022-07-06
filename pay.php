@@ -23,7 +23,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use core\uuid;
 use core_payment\helper;
 
 require_once(__DIR__ . '/../../../config.php');
@@ -31,41 +30,40 @@ require_once(__DIR__ . '/../../../config.php');
 require_login();
 global $CFG, $USER, $DB;
 
-$component   = required_param('component', PARAM_ALPHANUMEXT);
+$component = required_param('component', PARAM_ALPHANUMEXT);
 $paymentarea = required_param('paymentarea', PARAM_ALPHANUMEXT);
-$itemid      = required_param('itemid', PARAM_INT);
-$courseid   = $DB->get_field('enrol', 'courseid', ['enrol' => 'fee', 'id' => $itemid]);
-$config     = (object) helper::get_gateway_configuration($component, $paymentarea, $itemid, 'cardinity');
-$payable    = helper::get_payable($component, $paymentarea, $itemid);
-$surcharge  = helper::get_gateway_surcharge('cardinity');
-$cost       = helper::get_rounded_cost($payable->get_amount(), $payable->get_currency(), $surcharge);
-
+$itemid = required_param('itemid', PARAM_INT);
+$courseid = $DB->get_field('enrol', 'courseid', ['enrol' => 'fee', 'id' => $itemid]);
+$config = (object)helper::get_gateway_configuration($component, $paymentarea, $itemid, 'cardinity');
+$payable = helper::get_payable($component, $paymentarea, $itemid);
+$surcharge = helper::get_gateway_surcharge('cardinity');
+$cost = helper::get_rounded_cost($payable->get_amount(), $payable->get_currency(), $surcharge);
 
 $amount = number_format((float)$cost, 2, '.', '');
 $cancelurl = $CFG->wwwroot . '/payment/gateway/cardinity/cancel.php?id=' . $courseid . '&component=' . $component .
-  '&paymentarea=' . $paymentarea . '&itemid=' . $itemid;
+    '&paymentarea=' . $paymentarea . '&itemid=' . $itemid;
 $country = !empty($USER->country) ? $USER->country : 'Liechtenstein';
 $language = "EN";
 $currency = $payable->get_currency();
 $description = 'description';
 $orderid = uniqid();
 $returnurl = $CFG->wwwroot . '/payment/gateway/cardinity/process.php?id=' .
-  $courseid . '&component=' . $component .
-  '&paymentarea=' . $paymentarea . '&itemid=' . $itemid;
+    $courseid . '&component=' . $component .
+    '&paymentarea=' . $paymentarea . '&itemid=' . $itemid;
 
 $projectid = $config->clientid;
 $projectsecret = $config->secretkey;
 
 $attributes = [
-  "amount" => $amount,
-  "currency" => $currency,
-  "country" => $country,
-  "language" => $language,
-  "order_id" => $orderid,
-  "description" => $description,
-  "project_id" => $projectid,
-  "cancel_url" => $cancelurl,
-  "return_url" => $returnurl,
+    "amount" => $amount,
+    "currency" => $currency,
+    "country" => $country,
+    "language" => $language,
+    "order_id" => $orderid,
+    "description" => $description,
+    "project_id" => $projectid,
+    "cancel_url" => $cancelurl,
+    "return_url" => $returnurl,
 ];
 
 ksort($attributes);
@@ -81,22 +79,21 @@ $signature = hash_hmac('sha256', $message, $projectsecret);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Cardiniy Hosted Payment Page</title>
-  </style>
+    <title>Cardinity Hosted Payment Page</title>
 </head>
 <body onload="document.forms['checkout'].submit()">
-  <div class="loader"></div>
-  <form name="checkout" method="POST" action="https://checkout.cardinity.com">
-    <input type="hidden" name="amount" value="<?php echo $amount; ?>" />
-    <input type="hidden" name="cancel_url" value="<?php echo $cancelurl; ?>" />
-    <input type="hidden" name="country" value="<?php echo $country; ?>" />
-    <input type="hidden" name="language" value="<?php echo $language; ?>" />
-    <input type="hidden" name="currency" value="<?php echo $currency; ?>" />
-    <input type="hidden" name="description" value="<?php echo $description; ?>" />
-    <input type="hidden" name="order_id" value="<?php echo $orderid; ?>" />
-    <input type="hidden" name="project_id" value="<?php echo $projectid; ?>" />
-    <input type="hidden" name="return_url" value="<?php echo $returnurl; ?>" />
-    <input type="hidden" name="signature" value="<?php echo $signature; ?>" />
-  </form>
+<div class="loader"></div>
+<form name="checkout" method="POST" action="https://checkout.cardinity.com">
+    <input type="hidden" name="amount" value="<?php echo $amount; ?>"/>
+    <input type="hidden" name="cancel_url" value="<?php echo $cancelurl; ?>"/>
+    <input type="hidden" name="country" value="<?php echo $country; ?>"/>
+    <input type="hidden" name="language" value="<?php echo $language; ?>"/>
+    <input type="hidden" name="currency" value="<?php echo $currency; ?>"/>
+    <input type="hidden" name="description" value="<?php echo $description; ?>"/>
+    <input type="hidden" name="order_id" value="<?php echo $orderid; ?>"/>
+    <input type="hidden" name="project_id" value="<?php echo $projectid; ?>"/>
+    <input type="hidden" name="return_url" value="<?php echo $returnurl; ?>"/>
+    <input type="hidden" name="signature" value="<?php echo $signature; ?>"/>
+</form>
 </body>
 </html>
