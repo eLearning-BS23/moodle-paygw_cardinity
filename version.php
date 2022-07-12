@@ -28,3 +28,4 @@ $plugin->version   = 2022012800;        // The current plugin version (Date: YYY
 $plugin->release   = '1.00';
 $plugin->requires  = 2020110900;        // Requires this Moodle version.
 $plugin->component = 'paygw_cardinity';    // Full name of the plugin (used for diagnostics).
+$plugin->maturity = MATURITY_STABLE;
