@@ -22,6 +22,7 @@
  * @author     Brain station 23 ltd.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 namespace paygw_cardinity;
 
 use coding_exception;
@@ -49,6 +50,13 @@ class gateway extends \core_payment\gateway {
         $mform->setType('secretkey', PARAM_TEXT);
         $mform->addHelpButton('secretkey', 'secretkey', 'paygw_cardinity');
         $mform->addHelpButton('defaulttaxbehavior', 'defaulttaxbehavior', 'paygw_cardinity');
+        $mform->addElement('text', 'consumerkey', get_string('consumerkey', 'paygw_cardinity'));
+        $mform->setType('consumerkey', PARAM_TEXT);
+        $mform->addHelpButton('consumerkey', 'consumerkey', 'paygw_cardinity');
+        $mform->addElement('text', 'consumersecret', get_string('consumersecret', 'paygw_cardinity'));
+        $mform->setType('consumersecret', PARAM_TEXT);
+        $mform->addHelpButton('consumersecret', 'consumersecret', 'paygw_cardinity');
+
     }
 
     /**
@@ -62,9 +70,9 @@ class gateway extends \core_payment\gateway {
      */
     public static function validate_gateway_form(
         account_gateway $form,
-        stdClass $data,
-        array $files,
-        array &$errors
+        stdClass        $data,
+        array           $files,
+        array           &$errors
     ): void {
         if ($data->enabled && (empty($data->clientid) || empty($data->secretkey))) {
             $errors['enabled'] = get_string('gatewaycannotbeenabled', 'payment');

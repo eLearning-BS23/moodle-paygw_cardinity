@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /*
- * Various helper methods for interacting with the portwallet API
+ * Various helper methods for interacting with the cardinity API
  *
- * @package    paygw_portwallet
+ * @package    paygw_cardinity
  * @copyright  2021 Brain station 23 ltd.
  * @author     Brain station 23 ltd.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -28,8 +28,8 @@ require_once($CFG->dirroot . '/course/lib.php');
 
 require_login();
 
-$courseid = required_param("id", PARAM_INT);
+$courseid = required_param("courseid", PARAM_INT);
 
 $url = course_get_url($courseid);
 
-redirect($url, get_string('paymentcancelled', 'paygw_portwallet'), null, \core\output\notification::NOTIFY_ERROR);
+redirect($url, get_string('paymentcancelled', 'paygw_cardinity'), null, \core\output\notification::NOTIFY_ERROR);
