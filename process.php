@@ -24,11 +24,10 @@
  */
 
 use core_payment\helper;
+use paygw_cardinity\cardinity_helper;
 
 require_once(__DIR__ . '/../../../config.php');
 require_once($CFG->dirroot . '/course/lib.php');
-
-use paygw_cardinity\cardinity_helper;
 
 global $CFG, $USER, $DB;
 defined('MOODLE_INTERNAL') || die();
@@ -117,11 +116,9 @@ if ($signature == $data['signature']) {
             if (!empty($courseid)) {
                 $url = course_get_url($courseid);
             }
+
         }
         redirect($url, get_string('paymentsuccessful', 'paygw_cardinity'), 0, 'success');
-
     }
-
-
 }
 redirect(new moodle_url('/'), get_string('paymentcancelled', 'paygw_cardinity'));

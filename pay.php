@@ -47,7 +47,9 @@ $language = "EN";
 $currency = $payable->get_currency();
 $description = 'description';
 $orderid = uniqid();
+
 $returnurl = $CFG->wwwroot . '/payment/gateway/cardinity/process.php?courseid=' .
+
     $courseid . '&component=' . $component .
     '&paymentarea=' . $paymentarea . '&itemid=' . $itemid;
 
