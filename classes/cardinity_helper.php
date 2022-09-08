@@ -35,19 +35,14 @@ class cardinity_helper {
     private $baseurl;
 
     /**
-     * @var string Client consumerkey
+     * @var string Client consumer key
      */
     private $consumerkey;
 
     /**
-     * @var string Cardinity secret
+     * @var string consumer secret
      */
     private $consumersecret;
-
-    /**
-     * @var string The oath bearer token
-     */
-    private $token;
 
     /**
      * @param string $consumerkey
