@@ -25,6 +25,8 @@
 
 namespace paygw_cardinity;
 defined('MOODLE_INTERNAL') || die();
+
+global $CFG;
 require_once($CFG->libdir . '/filelib.php');
 
 class cardinity_helper {
