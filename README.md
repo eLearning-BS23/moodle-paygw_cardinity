@@ -39,10 +39,12 @@ Enable Cardinity to the payment gateways
 ```
 Dashboard->Site Administration->Plugins->Payment Gateways->Cardinity settings
 ```
-![image](https://user-images.githubusercontent.com/8987681/153189494-2b7d1878-9cf2-431d-a101-06e01edcb981.png)
+![image](https://user-images.githubusercontent.com/40598386/189609353-88a854a1-239d-4b64-8712-2318a239264b.png)
 
-- Insert the Cardinity client Id provided by Cardinity
-- Insert the Cardinity client secrect key provided by Cardinity
+- Insert the Cardinity project ID provided by Cardinity
+- Insert the Cardinity project secrect key provided by Cardinity
+- Insert the Cardinity consumer key provided by Cardinity
+- Insert the Cardinity consumer secrect key provided by Cardinity
 - Click the "save changes" button to save the information
 
 ### Step: 3
@@ -79,8 +81,7 @@ Give details of your card:
 ![image](https://user-images.githubusercontent.com/8987681/153190520-a92d712e-532d-4c9a-bbd2-ee206d5ff1f9.png)
 
 
-If you payment is successful then you'll be enrolled in the course:
-
+If your payment is successful then you'll be enrolled in the course. Please make sure your moodle account have country added to it. 
 
 ## Author
 - [Brain Station 23 Ltd.](https://brainstation-23.com)

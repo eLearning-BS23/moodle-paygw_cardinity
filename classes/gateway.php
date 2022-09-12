@@ -43,16 +43,19 @@ class gateway extends \core_payment\gateway {
      */
     public static function add_configuration_to_gateway_form(account_gateway $form): void {
         $mform = $form->get_mform();
+
         $mform->addElement('text', 'clientid', get_string('clientid', 'paygw_cardinity'));
         $mform->setType('clientid', PARAM_TEXT);
         $mform->addHelpButton('clientid', 'clientid', 'paygw_cardinity');
+
         $mform->addElement('text', 'secretkey', get_string('secretkey', 'paygw_cardinity'));
         $mform->setType('secretkey', PARAM_TEXT);
         $mform->addHelpButton('secretkey', 'secretkey', 'paygw_cardinity');
-        $mform->addHelpButton('defaulttaxbehavior', 'defaulttaxbehavior', 'paygw_cardinity');
+
         $mform->addElement('text', 'consumerkey', get_string('consumerkey', 'paygw_cardinity'));
         $mform->setType('consumerkey', PARAM_TEXT);
         $mform->addHelpButton('consumerkey', 'consumerkey', 'paygw_cardinity');
+
         $mform->addElement('text', 'consumersecret', get_string('consumersecret', 'paygw_cardinity'));
         $mform->setType('consumersecret', PARAM_TEXT);
         $mform->addHelpButton('consumersecret', 'consumersecret', 'paygw_cardinity');
