@@ -26,10 +26,11 @@
 use core_payment\helper;
 use paygw_cardinity\cardinity_helper;
 
+global $CFG, $USER, $DB;
 require_once(__DIR__ . '/../../../config.php');
 require_once($CFG->dirroot . '/course/lib.php');
 
-global $CFG, $USER, $DB;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_login();
