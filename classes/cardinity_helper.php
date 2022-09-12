@@ -73,14 +73,15 @@ class cardinity_helper {
      * @param $oauth
      * @return string
      */
-    private function build_authorization_header($oauth) {
-        $headerstring = 'Authorization: OAuth ';
+
+    function build_authorization_header($oauth) {
+        $headerString = 'Authorization: OAuth ';
         $values = array();
-        foreach ($oauth as $key => $value) {
+        foreach ($oauth as $key => $value)
             $values[] = "$key=\"" . rawurlencode($value) . "\"";
-            $headerstring .= implode(', ', $values);
-        }
-        return $headerstring;
+
+        $headerString .= implode(', ', $values);
+        return $headerString;
     }
 
     /**
@@ -104,6 +105,7 @@ class cardinity_helper {
         $signature = base64_encode($hash);
 
         $oauthparams['oauth_signature'] = $signature;
+
         $headers = array(
             'Content-Type: application/json',
             $this->build_authorization_header($oauthparams),
