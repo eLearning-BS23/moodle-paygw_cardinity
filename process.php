@@ -24,30 +24,46 @@
  */
 
 use core_payment\helper;
+use paygw_cardinity\cardinity_helper;
 
 require_once(__DIR__ . '/../../../config.php');
 require_once($CFG->dirroot . '/course/lib.php');
+
 global $CFG, $USER, $DB;
 defined('MOODLE_INTERNAL') || die();
 
 require_login();
 
 $status = required_param('status', PARAM_TEXT);
-$courseid = required_param("id", PARAM_INT);
+$courseid = required_param("courseid", PARAM_INT);
 $component = required_param('component', PARAM_ALPHANUMEXT);
 $paymentarea = required_param('paymentarea', PARAM_ALPHANUMEXT);
 $itemid = required_param('itemid', PARAM_INT);
-$status = required_param('status', PARAM_TEXT);
-$live = required_param('live', PARAM_TEXT);
 
 // Load Cardinity Configuration.
 $config = (object)helper::get_gateway_configuration($component, $paymentarea, $itemid, 'cardinity');
 
+$consumerkey = $config->consumerkey;
+$consumersecret = $config->consumersecret;
 $projectsecret = $config->secretkey;
-$message = '';
-ksort($_POST);
 
-foreach ($_POST as $key => $value) {
+$message = '';
+
+$data['amount'] = required_param('amount', PARAM_RAW);
+$data['country'] = required_param('country', PARAM_RAW);
+$data['created'] = required_param('created', PARAM_RAW);
+$data['currency'] = required_param('currency', PARAM_RAW);
+$data['description'] = required_param('description', PARAM_RAW);
+$data['id'] = required_param('id', PARAM_RAW);
+$data['live'] = optional_param('live', '', PARAM_RAW);
+$data['order_id'] = required_param('order_id', PARAM_RAW);
+$data['payment_method'] = required_param('payment_method', PARAM_RAW);
+$data['project_id'] = required_param('project_id', PARAM_RAW);
+$data['signature'] = required_param('signature', PARAM_RAW);
+$data['status'] = required_param('status', PARAM_RAW);
+$data['type'] = required_param('type', PARAM_RAW);
+
+foreach ($data as $key => $value) {
     if ($key == 'signature') {
         continue;
     }
@@ -56,45 +72,53 @@ foreach ($_POST as $key => $value) {
 
 $signature = hash_hmac('sha256', $message, $projectsecret);
 
-if ($signature == $_POST['signature']) {
+if ($signature == $data['signature']) {
+    // Init Cardinity Helper.
+    $cardinityhelper = new cardinity_helper($consumerkey, $consumersecret);
+    // Check Payment Status.
+    if ($cardinityhelper->check_payment_status($data['id'])) {
 
-    $paymentrecord = new stdClass();
-    $paymentrecord->courseid = $courseid;
-    $paymentrecord->itemid = $itemid;
-    $paymentrecord->userid = $USER->id;
-    $paymentrecord->currency = required_param('currency', PARAM_TEXT);
-    $paymentrecord->payment_status = $status;
-    $paymentrecord->payment_id = $_POST['id'];
-    $paymentrecord->txn_id = required_param('order_id', PARAM_TEXT);
-    $paymentrecord->timeupdated = time();
+        $paymentrecord = new stdClass();
+        $paymentrecord->courseid = $courseid;
+        $paymentrecord->itemid = $itemid;
+        $paymentrecord->userid = $USER->id;
+        $paymentrecord->currency = $data['currency'];
+        $paymentrecord->payment_status = $status;
+        $paymentrecord->payment_id = $data['id'];
+        $paymentrecord->txn_id = $data['order_id'];
+        $paymentrecord->timeupdated = time();
 
-    $DB->insert_record('paygw_cardinity', $paymentrecord);
-    // Deliver course.
-    $payable = helper::get_payable($component, $paymentarea, $itemid);
-    $cost = helper::get_rounded_cost($payable->get_amount(), $payable->get_currency(), helper::get_gateway_surcharge('cardinity'));
-    $paymentid = helper::save_payment(
-        $payable->get_account_id(),
-        $component,
-        $paymentarea,
-        $itemid,
-        $USER->id,
-        $cost,
-        $payable->get_currency(),
-        'cardinity'
-    );
-    helper::deliver_order($component, $paymentarea, $itemid, $paymentid, $USER->id);
+        $DB->insert_record('paygw_cardinity', $paymentrecord);
+        // Deliver course.
+        $payable = helper::get_payable($component, $paymentarea, $itemid);
+        $cost = helper::get_rounded_cost($payable->get_amount(),
+            $payable->get_currency(),
+            helper::get_gateway_surcharge('cardinity'));
+        $paymentid = helper::save_payment(
+            $payable->get_account_id(),
+            $component,
+            $paymentarea,
+            $itemid,
+            $USER->id,
+            $cost,
+            $payable->get_currency(),
+            'cardinity'
+        );
+        helper::deliver_order($component, $paymentarea, $itemid, $paymentid, $USER->id);
 
-    // Find redirection.
-    $url = new moodle_url('/');
-    // Method only exists in 3.11+.
-    if (method_exists('\core_payment\helper', 'get_success_url')) {
-        $url = helper::get_success_url($component, $paymentarea, $itemid);
-    } else if ($component == 'enrol_fee' && $paymentarea == 'fee') {
-        $courseid = $DB->get_field('enrol', 'courseid', ['enrol' => 'fee', 'id' => $itemid]);
-        if (!empty($courseid)) {
-            $url = course_get_url($courseid);
+        // Find redirection.
+        $url = new moodle_url('/');
+        // Method only exists in 3.11+.
+        if (method_exists('\core_payment\helper', 'get_success_url')) {
+            $url = helper::get_success_url($component, $paymentarea, $itemid);
+        } else if ($component == 'enrol_fee' && $paymentarea == 'fee') {
+            $courseid = $DB->get_field('enrol', 'courseid', ['enrol' => 'fee', 'id' => $itemid]);
+            if (!empty($courseid)) {
+                $url = course_get_url($courseid);
+            }
+
         }
+        redirect($url, get_string('paymentsuccessful', 'paygw_cardinity'), 0, 'success');
     }
-    redirect($url, get_string('paymentsuccessful', 'paygw_cardinity'), 0, 'success');
 }
 redirect(new moodle_url('/'), get_string('paymentcancelled', 'paygw_cardinity'));

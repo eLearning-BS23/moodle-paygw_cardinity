@@ -40,14 +40,16 @@ $surcharge = helper::get_gateway_surcharge('cardinity');
 $cost = helper::get_rounded_cost($payable->get_amount(), $payable->get_currency(), $surcharge);
 
 $amount = number_format((float)$cost, 2, '.', '');
-$cancelurl = $CFG->wwwroot . '/payment/gateway/cardinity/cancel.php?id=' . $courseid . '&component=' . $component .
+$cancelurl = $CFG->wwwroot . '/payment/gateway/cardinity/cancel.php?courseid=' . $courseid . '&component=' . $component .
     '&paymentarea=' . $paymentarea . '&itemid=' . $itemid;
 $country = !empty($USER->country) ? $USER->country : 'Liechtenstein';
 $language = "EN";
 $currency = $payable->get_currency();
 $description = 'description';
 $orderid = uniqid();
-$returnurl = $CFG->wwwroot . '/payment/gateway/cardinity/process.php?id=' .
+
+$returnurl = $CFG->wwwroot . '/payment/gateway/cardinity/process.php?courseid=' .
+
     $courseid . '&component=' . $component .
     '&paymentarea=' . $paymentarea . '&itemid=' . $itemid;
 

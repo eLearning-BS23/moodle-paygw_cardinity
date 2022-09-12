@@ -28,7 +28,7 @@ require_once($CFG->dirroot . '/course/lib.php');
 
 require_login();
 
-$courseid = required_param("id", PARAM_INT);
+$courseid = required_param("courseid", PARAM_INT);
 
 $url = course_get_url($courseid);
 
