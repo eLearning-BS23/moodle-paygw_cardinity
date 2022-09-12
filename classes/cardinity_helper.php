@@ -125,5 +125,4 @@ class cardinity_helper {
 
         return $jsonarrayresponse['status'] == 'approved' ?? false;
     }
-
 }

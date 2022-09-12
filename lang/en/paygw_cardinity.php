@@ -23,27 +23,22 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Cardinity';
-$string['gatewayname'] = 'Cardinity';
-$string['paymentsuccessful'] = 'Payment Successful';
-$string['paymentcancelled'] = 'Payment Cancelled';
-$string['pluginname_desc'] = 'The Cardinity plugin allows you to receive payments via Cardinity.';
-$string['privacy:metadata'] = 'The Cardinity plugin does not store any personal data.';
 $string['clientid'] = 'Project ID';
 $string['clientid_help'] = 'The Project ID that Cardinity generated for your application.';
 $string['consumerkey'] = 'Consumer Key';
 $string['consumerkey_help'] = 'The Consumer Key that Cardinity generated for your application.';
 $string['consumersecret'] = 'Consumer Secret';
 $string['consumersecret_help'] = 'The Consumer Secret that Cardinity generated for your application.';
+$string['gatewaydescription'] = 'Cardinity is a payment gateway that allows merchants to expand their businesses online. Payments can be made with local and international debit or credit cards.';
+$string['pluginname'] = 'Cardinity';
+$string['gatewayname'] = 'Cardinity';
+$string['paymentsuccessful'] = 'Payment Successful';
+$string['paymentcancelled'] = 'Payment Cancelled';
+$string['pluginname_desc'] = 'The Cardinity plugin allows you to receive payments via Cardinity.';
+$string['privacy:metadata'] = 'The Cardinity plugin does not store any personal data.';
+$string['paymentmethod:card'] = 'Card';
+$string['paymentmethods'] = 'Payment methods';
 $string['sandbox'] = 'Sandbox';
 $string['secretkey'] = 'Project secret';
 $string['secretkey_help'] = 'The Project secret that Cardinity generated for your application.';
-$string['paymentmethod:card'] = 'Card';
-$string['paymentmethods'] = 'Payment methods';
-$string['defaulttaxbehavior'] = 'Environment';
-$string['taxbehavior:exclusive'] = 'Sandbox';
-$string['taxbehavior:inclusive'] = 'Live';
-$string['defaulttaxbehavior_help'] = 'Chose your Credential environment';
-$string['gatewaydescription'] = 'Cardinity is a payment gateway that allows merchants to expand their businesses online. Payments can be made with local and international debit or credit cards.';
-$string['environmentmessage'] = 'Your Payment done in test environment.';
 
