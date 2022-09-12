@@ -74,14 +74,14 @@ class cardinity_helper {
      * @return string
      */
 
-    function build_authorization_header($oauth) {
-        $headerString = 'Authorization: OAuth ';
+    private function build_authorization_header($oauth) {
+        $headerstring = 'Authorization: OAuth ';
         $values = array();
-        foreach ($oauth as $key => $value)
+        foreach ($oauth as $key => $value) {
             $values[] = "$key=\"" . rawurlencode($value) . "\"";
-
-        $headerString .= implode(', ', $values);
-        return $headerString;
+        }
+        $headerstring .= implode(', ', $values);
+        return $headerstring;
     }
 
     /**
