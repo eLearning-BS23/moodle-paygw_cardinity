@@ -39,7 +39,8 @@ Enable Cardinity to the payment gateways
 ```
 Dashboard->Site Administration->Plugins->Payment Gateways->Cardinity settings
 ```
-![image](https://user-images.githubusercontent.com/40598386/189609353-88a854a1-239d-4b64-8712-2318a239264b.png)
+
+![3 edit](https://user-images.githubusercontent.com/40598386/190348405-1436f9c6-ab54-43a5-9c19-4c7a62fa9fbc.png)
 
 - Insert the Cardinity project ID provided by Cardinity
 - Insert the Cardinity project secrect key provided by Cardinity
@@ -66,11 +67,11 @@ Now click on the course page and add an enrolment method Enrolment of Payment.
 
 and fill up this form below to set the amount of money and currency for the course payment
 
-![image](https://user-images.githubusercontent.com/97436713/153138610-ff83dcde-ebc2-430f-a870-2b612203a576.png)
+![image](https://user-images.githubusercontent.com/40598386/190346195-ca970aa3-4114-4056-9225-7f6e875d0c17.png)
 
 This is how it looks like from a student's perspective:
 
-![image](https://user-images.githubusercontent.com/97436713/153136854-31f92d49-9161-4922-90ca-c5d4224228c8.png)
+![image](https://user-images.githubusercontent.com/40598386/190346825-e237a550-b200-4dc2-a46f-e4f1153dd0d6.png)
 
 Select the Payment Type- Cardinity the surcharge is added with the course payment amount
 
